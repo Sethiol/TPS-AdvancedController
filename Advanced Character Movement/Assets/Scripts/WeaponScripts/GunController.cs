@@ -5,6 +5,7 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     private CrossHairTarget target;
+    [Header("Shooting Weapons")]
     public int fireRate = 25;
     public ActiveWeapon.WeaponSlot WeaponSlotType;
     [SerializeField] private ParticleSystem[] muzzleFlash;
@@ -15,6 +16,11 @@ public class GunController : MonoBehaviour
     Ray ray;
     RaycastHit hitInfo;
     public bool isFiring;
+    public GameObject Magazine;
+    public int ammoCount;
+    public int ClipSize;
+
+    [Header("Combat Weapons")]
     public bool AxeAttack;
     float accumalatedTime;
     public WeaponProceduralRecoil recoil { get; set; }
@@ -62,6 +68,11 @@ public class GunController : MonoBehaviour
     }
     private void FireBullet()
     {
+        if(ammoCount <= 0)
+        {
+            return;
+        }
+        ammoCount--;
         recoil.GenerateRecoil(WeaponSlotType.ToString());
         muzzleFlash[0].Emit(1);
         muzzleFlash[1].Emit(1);

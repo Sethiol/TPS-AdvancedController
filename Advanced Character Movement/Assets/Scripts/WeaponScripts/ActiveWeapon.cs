@@ -24,6 +24,7 @@ public class ActiveWeapon : MonoBehaviour
     bool WasHolstered;
     bool RemoveWeaponCurrent;
     public TrailRenderer renderer;
+    public AmmoWidget ammoWidget;
     [SerializeField] private Cinemachine.CinemachineFreeLook playerCamera;
     public bool CancelAllMovement { get; set; }
     // Start is called before the first frame update
@@ -76,6 +77,7 @@ public class ActiveWeapon : MonoBehaviour
         };
         Controls.Keyboard.Shoot.started += ctx =>
         {
+            if (HolsteredWeapon) { return; }
             if(currentWeapon != null)
             {
                 if(currentWeapon.WeaponSlotType.ToString() == "Axe")
@@ -91,6 +93,7 @@ public class ActiveWeapon : MonoBehaviour
         };
         Controls.Keyboard.Shoot.canceled += ctx =>
         {
+            if (HolsteredWeapon) { return; }
             if (currentWeapon != null)
             {
                 if (currentWeapon.WeaponSlotType.ToString() == "Axe") { return; }
@@ -113,7 +116,7 @@ public class ActiveWeapon : MonoBehaviour
     }
     private void Update()
     {
-        if (currentWeapon.AxeAttack) { CancelAllMovement = true; } else { CancelAllMovement = false; }
+        if (currentWeapon == null) { return; } else if (currentWeapon.AxeAttack) { CancelAllMovement = true; } else { CancelAllMovement = false; }
         var weapon = GetWeapon(activeWeaponIndex);
         currentWeapon = weapon;
         RemoveWeapon();
@@ -204,6 +207,7 @@ public class ActiveWeapon : MonoBehaviour
         }
         weapon.transform.SetParent(weaponSlots[weaponSlotIndex], false);
         Equipped_Weapons[weaponSlotIndex] = weapon;
+        ammoWidget.Refresh(weapon.ammoCount, weapon.ClipSize, weapon.WeaponSlotType.ToString());
         SetActiveWeapon(newWeapon.WeaponSlotType);
     }
     void SetActiveWeapon(WeaponSlot weaponSlot)
@@ -254,6 +258,10 @@ public class ActiveWeapon : MonoBehaviour
         }
         return Equipped_Weapons[index];
     }
+    public GunController GetActiveWeapon()
+    {
+        return GetWeapon(activeWeaponIndex);
+    }
     IEnumerator SwitchWeapon(int holsterindex, int activeindex)
     {
         activeWeaponIndex = activeindex;
@@ -262,6 +270,7 @@ public class ActiveWeapon : MonoBehaviour
     }
     IEnumerator HolsterWeapon(int index)
     {
+        HolsteredWeapon = true;
         var weapon = GetWeapon(index);
         rigController.SetBool("Holster_Weapon", true);
         if (weapon == null || weapon != null && WasHolstered)
@@ -287,5 +296,6 @@ public class ActiveWeapon : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             } while (rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
         }
+        HolsteredWeapon = false;
     }
 }

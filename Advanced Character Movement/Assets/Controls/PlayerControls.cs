@@ -113,6 +113,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""e6796a7a-6356-4c6a-8ae7-6bc6a06dc8f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -434,6 +442,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5889bba7-c6fd-4486-bb26-f8e2f91a967d"",
+                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d7c59727-a96d-4fcc-ab4b-65aa19086ecd"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -460,6 +490,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Keyboard_MoveBack = m_Keyboard.FindAction("MoveBack", throwIfNotFound: true);
         m_Keyboard_RemoveWeapon = m_Keyboard.FindAction("RemoveWeapon", throwIfNotFound: true);
         m_Keyboard_Shoot = m_Keyboard.FindAction("Shoot", throwIfNotFound: true);
+        m_Keyboard_Reload = m_Keyboard.FindAction("Reload", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
     }
@@ -523,6 +554,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Keyboard_MoveBack;
     private readonly InputAction m_Keyboard_RemoveWeapon;
     private readonly InputAction m_Keyboard_Shoot;
+    private readonly InputAction m_Keyboard_Reload;
     public struct KeyboardActions
     {
         private @PlayerControls m_Wrapper;
@@ -539,6 +571,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @MoveBack => m_Wrapper.m_Keyboard_MoveBack;
         public InputAction @RemoveWeapon => m_Wrapper.m_Keyboard_RemoveWeapon;
         public InputAction @Shoot => m_Wrapper.m_Keyboard_Shoot;
+        public InputAction @Reload => m_Wrapper.m_Keyboard_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -584,6 +617,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Shoot.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnShoot;
                 @Shoot.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnShoot;
                 @Shoot.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnShoot;
+                @Reload.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
             if (instance != null)
@@ -624,6 +660,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
@@ -667,6 +706,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnMoveBack(InputAction.CallbackContext context);
         void OnRemoveWeapon(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

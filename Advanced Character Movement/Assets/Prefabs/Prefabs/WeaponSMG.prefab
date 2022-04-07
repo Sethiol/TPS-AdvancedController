@@ -56,6 +56,10 @@ MonoBehaviour:
   RaycastOrigin: {fileID: 5513585218998278886}
   RaycastDestination: {fileID: 0}
   isFiring: 0
+  Magazine: {fileID: 4193192172306113424}
+  ammoCount: 30
+  ClipSize: 30
+  AxeAttack: 0
 --- !u!114 &-8201090762171726182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,8 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   cameraShake: {fileID: 0}
-  verticalRecoil: 10
-  HorizontalRecoil: 10
+  RigController: {fileID: 0}
   duration: 0.1
   recoilPattern:
   - {x: 10, y: 10}

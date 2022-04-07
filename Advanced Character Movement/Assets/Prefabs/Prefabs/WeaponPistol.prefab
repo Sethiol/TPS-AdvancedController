@@ -254,6 +254,10 @@ MonoBehaviour:
   RaycastOrigin: {fileID: 7456327958056748986}
   RaycastDestination: {fileID: 0}
   isFiring: 0
+  Magazine: {fileID: 4499453385439855230}
+  ammoCount: 12
+  ClipSize: 12
+  AxeAttack: 0
 --- !u!114 &-6857265263608495198
 MonoBehaviour:
   m_ObjectHideFlags: 0
