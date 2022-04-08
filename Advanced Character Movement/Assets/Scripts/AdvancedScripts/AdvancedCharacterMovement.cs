@@ -71,7 +71,7 @@ public class AdvancedCharacterMovement : MonoBehaviour
         };
         Controller = GetComponent<CharacterController>();
     }
-    private void FixedUpdate()
+    private void Update()
     {
         HandleAnimations();
         HandleGravity();

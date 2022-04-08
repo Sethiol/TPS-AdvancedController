@@ -28,9 +28,11 @@ public class ActiveWeapon : MonoBehaviour
     WeaponAiming aiming;
     [SerializeField] private Cinemachine.CinemachineFreeLook playerCamera;
     public bool CancelAllMovement { get; set; }
+    float punchcombo;
     // Start is called before the first frame update
     void Start()
     {
+        punchcombo = 0;
         aiming = GetComponent<WeaponAiming>();
         activeWeaponIndex = 0;
         TPSLocomotion = GetComponent<Animator>();
@@ -79,10 +81,9 @@ public class ActiveWeapon : MonoBehaviour
         };
         Controls.Keyboard.Shoot.started += ctx =>
         {
-            if (HolsteredWeapon) { return; }
-            if(currentWeapon != null)
+            if(currentWeapon != null && !HolsteredWeapon)
             {
-                if(currentWeapon.WeaponSlotType.ToString() == "Axe")
+                if (currentWeapon.WeaponSlotType.ToString() == "Axe")
                 {
                     if (currentWeapon.AxeAttack == true) return;
                     currentWeapon.StartAxeAttack(TPSLocomotion, rigController);
@@ -90,6 +91,24 @@ public class ActiveWeapon : MonoBehaviour
                 else
                 {
                     currentWeapon.StartFiring();
+                }
+            }
+            else if(currentWeapon != null && HolsteredWeapon || currentWeapon == null)
+            {
+                if(punchcombo == 0) 
+                {
+                    punchcombo = 1;
+                    StartPunchAttack(punchcombo);
+                }
+                else if(punchcombo == 1)
+                {
+                    punchcombo = 2;
+                    StartPunchAttack(punchcombo);
+                }
+                else if (punchcombo == 2)
+                {
+                    punchcombo = 1;
+                    StartPunchAttack(punchcombo);
                 }
             }
         };
@@ -307,5 +326,10 @@ public class ActiveWeapon : MonoBehaviour
             } while (rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
         }
         HolsteredWeapon = false;
+    }
+    void StartPunchAttack(float combo)
+    {
+        TPSLocomotion.SetFloat("PunchSide", combo);
+        TPSLocomotion.SetTrigger("Punch");
     }
 }
