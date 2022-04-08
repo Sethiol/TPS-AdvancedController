@@ -24,6 +24,9 @@ public class GunController : MonoBehaviour
     public bool AxeAttack;
     float accumalatedTime;
     public WeaponProceduralRecoil recoil { get; set; }
+    [Range(0f, 1f)]
+    public float ricochetChance;
+    public float minRicochetAngle;
     private void Awake()
     {
         recoil = GetComponent<WeaponProceduralRecoil>();
@@ -86,6 +89,11 @@ public class GunController : MonoBehaviour
             hiteffect.transform.forward = hitInfo.normal;
             hiteffect.Emit(1);
             tracer.transform.position = hitInfo.point;
+            var rb2d = hitInfo.collider.GetComponent<Rigidbody>();
+            if (rb2d)
+            {
+                rb2d.AddForceAtPosition(ray.direction * 20, hitInfo.point, ForceMode.Impulse);
+            }
         }
     }
 

@@ -24,13 +24,11 @@ public class AdvancedCharacterMovement : MonoBehaviour
     bool crouching;
     bool jumping;
     bool aiming;
-    float turnSmoothTime = 0.1f;
-    float turnSmoothVelocity;
-    float aimDuration = 0.3f;
     [SerializeField] private Camera cam;
     UIController controller;
     public PlayerInput input;
     private ActiveWeapon weapon;
+    public float turnSpeed = 15;
     private void Start()
     {
         weapon = GetComponent<ActiveWeapon>();
@@ -73,11 +71,12 @@ public class AdvancedCharacterMovement : MonoBehaviour
         };
         Controller = GetComponent<CharacterController>();
     }
-    private void Update()
+    private void FixedUpdate()
     {
         HandleAnimations();
         HandleGravity();
         HandleMovement();
+        HandleCharacterRotation();
     }
     //Move Character On Input
     private void HandleMovement()
@@ -89,9 +88,6 @@ public class AdvancedCharacterMovement : MonoBehaviour
         bool backwardPressed = PlayerMoveInput.z < -0.5;
         bool leftPressed = PlayerMoveInput.x < -0.5;
         bool rightPressed = PlayerMoveInput.x > 0.5;
-        float targetAngle = cam.transform.eulerAngles.y;
-        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
         if (weapon.CancelAllMovement == true) { return; }
         if (crouching)
         {
@@ -291,5 +287,9 @@ public class AdvancedCharacterMovement : MonoBehaviour
         }
     }
  
-
+    private void HandleCharacterRotation()
+    {
+        float yawCamera = cam.transform.rotation.eulerAngles.y;
+        transform.rotation = Quaternion.Euler(0, yawCamera, 0);
+    }
 }

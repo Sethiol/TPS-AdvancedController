@@ -75,8 +75,10 @@ public class ReloadWeapon : MonoBehaviour
     {
         GameObject droppedMagazine = Instantiate(magazineHand, magazineHand.transform.position, magazineHand.transform.rotation);
         droppedMagazine.AddComponent<Rigidbody>();
+        droppedMagazine.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
         droppedMagazine.AddComponent<BoxCollider>();
         magazineHand.SetActive(false);
+        StartCoroutine(DestroyClip(droppedMagazine));
     }
 
     private void DetachMagazine()
@@ -84,5 +86,10 @@ public class ReloadWeapon : MonoBehaviour
         GunController weapon = activeWeapon.GetActiveWeapon();
         magazineHand = Instantiate(weapon.Magazine, lefthand, true);
         weapon.Magazine.SetActive(false);
+    }
+    IEnumerator DestroyClip(GameObject clip)
+    {
+        yield return new WaitForSeconds(7f);
+        Destroy(clip.gameObject);
     }
 }

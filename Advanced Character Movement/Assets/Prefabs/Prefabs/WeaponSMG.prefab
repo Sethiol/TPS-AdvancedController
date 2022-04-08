@@ -60,6 +60,8 @@ MonoBehaviour:
   ammoCount: 30
   ClipSize: 30
   AxeAttack: 0
+  ricochetChance: 0
+  minRicochetAngle: 0
 --- !u!114 &-8201090762171726182
 MonoBehaviour:
   m_ObjectHideFlags: 0

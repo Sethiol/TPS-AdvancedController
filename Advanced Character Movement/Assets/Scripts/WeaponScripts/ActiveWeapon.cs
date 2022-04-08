@@ -25,11 +25,13 @@ public class ActiveWeapon : MonoBehaviour
     bool RemoveWeaponCurrent;
     public TrailRenderer renderer;
     public AmmoWidget ammoWidget;
+    WeaponAiming aiming;
     [SerializeField] private Cinemachine.CinemachineFreeLook playerCamera;
     public bool CancelAllMovement { get; set; }
     // Start is called before the first frame update
     void Start()
     {
+        aiming = GetComponent<WeaponAiming>();
         activeWeaponIndex = 0;
         TPSLocomotion = GetComponent<Animator>();
         HolsteredWeapon = false;
@@ -116,6 +118,14 @@ public class ActiveWeapon : MonoBehaviour
     }
     private void Update()
     {
+        if(currentWeapon != null)
+        {
+            aiming.currentWeapon = currentWeapon.WeaponSlotType.ToString();
+        }
+        else
+        {
+            aiming.currentWeapon = "";
+        }
         if (currentWeapon == null) { return; } else if (currentWeapon.AxeAttack) { CancelAllMovement = true; } else { CancelAllMovement = false; }
         var weapon = GetWeapon(activeWeaponIndex);
         currentWeapon = weapon;
