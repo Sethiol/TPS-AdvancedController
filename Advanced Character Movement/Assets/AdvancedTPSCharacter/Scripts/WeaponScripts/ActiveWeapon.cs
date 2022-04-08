@@ -9,9 +9,11 @@ public class ActiveWeapon : MonoBehaviour
     {
         SMG = 0,
         Pistol = 1,
-        Axe = 2
+        Axe = 2,
+        Rifle = 3,
+        Shotgun = 4
     }
-    GunController[] Equipped_Weapons = new GunController[3];
+    GunController[] Equipped_Weapons = new GunController[5];
     public int activeWeaponIndex;
     GunController currentWeapon;
     public Transform[] weaponSlots;
@@ -27,7 +29,6 @@ public class ActiveWeapon : MonoBehaviour
     public AmmoWidget ammoWidget;
     WeaponAiming aiming;
     [SerializeField] private Cinemachine.CinemachineFreeLook playerCamera;
-    [SerializeField] private GameObject[] WeaponSlots;
     public bool CancelAllMovement { get; set; }
     float punchcombo;
     // Start is called before the first frame update
@@ -52,13 +53,13 @@ public class ActiveWeapon : MonoBehaviour
             for (int i = activeWeaponIndex; i < Equipped_Weapons.Length + 1; i++)
             {
                 x++;
-                if (i == 3) { i = 0; }
+                if (i == Equipped_Weapons.Length) { i = 0; }
                 if (Equipped_Weapons[i] != null && i != activeWeaponIndex )
                 {
                     SetActiveWeapon((WeaponSlot)i);
                     return;
                 }
-                if(x == 3) { return; }
+                if(x == Equipped_Weapons.Length) { return; }
             }
         };
         Controls.Keyboard.MoveBack.performed += ctx =>
@@ -67,13 +68,13 @@ public class ActiveWeapon : MonoBehaviour
             for (int i = activeWeaponIndex; i > -2; i--)
             {
                 x++;
-                if (i == -1) { i = 2; }
+                if (i == -1) { i = Equipped_Weapons.Length-1; }
                 if (Equipped_Weapons[i] != null && i != activeWeaponIndex)
                 {
                     SetActiveWeapon((WeaponSlot)i);
                     return;
                 }
-                if (x == 3) { return; }
+                if (x == Equipped_Weapons.Length) { return; }
             }
         };
         Controls.Keyboard.RemoveWeapon.performed += ctx =>
@@ -138,7 +139,6 @@ public class ActiveWeapon : MonoBehaviour
     }
     private void Update()
     {
-        CheckGuns();
         if (TPSLocomotion.GetCurrentAnimatorStateInfo(0).IsName("PunchRight") && TPSLocomotion.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f || TPSLocomotion.GetCurrentAnimatorStateInfo(0).IsName("PunchLeft") && TPSLocomotion.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) { CancelAllMovement = true; } else
         {
             CancelAllMovement = false;
@@ -195,6 +195,18 @@ public class ActiveWeapon : MonoBehaviour
             TPSLocomotion.SetLayerWeight(1, 0f);
             TPSLocomotion.SetLayerWeight(2, 0f);
         }
+        if (HolsteredWeapon && activeWeaponIndex == 3)
+        {
+            TPSLocomotion.SetLayerWeight(0, 1f);
+            TPSLocomotion.SetLayerWeight(1, 0f);
+            TPSLocomotion.SetLayerWeight(2, 0f);
+        }
+        if (HolsteredWeapon && activeWeaponIndex == 4)
+        {
+            TPSLocomotion.SetLayerWeight(0, 1f);
+            TPSLocomotion.SetLayerWeight(1, 0f);
+            TPSLocomotion.SetLayerWeight(2, 0f);
+        }
         else if (!HolsteredWeapon && activeWeaponIndex == 2)
         {
             TPSLocomotion.SetLayerWeight(0, 0f);
@@ -208,6 +220,18 @@ public class ActiveWeapon : MonoBehaviour
             TPSLocomotion.SetLayerWeight(2, 0f);
         }
         else if (!HolsteredWeapon && activeWeaponIndex == 0)
+        {
+            TPSLocomotion.SetLayerWeight(0, 0f);
+            TPSLocomotion.SetLayerWeight(1, 1f);
+            TPSLocomotion.SetLayerWeight(2, 0f);
+        }
+        else if (!HolsteredWeapon && activeWeaponIndex == 3)
+        {
+            TPSLocomotion.SetLayerWeight(0, 0f);
+            TPSLocomotion.SetLayerWeight(1, 1f);
+            TPSLocomotion.SetLayerWeight(2, 0f);
+        }
+        else if (!HolsteredWeapon && activeWeaponIndex == 4)
         {
             TPSLocomotion.SetLayerWeight(0, 0f);
             TPSLocomotion.SetLayerWeight(1, 1f);
@@ -337,56 +361,5 @@ public class ActiveWeapon : MonoBehaviour
     {
         TPSLocomotion.SetFloat("PunchSide", combo);
         TPSLocomotion.SetTrigger("Punch");
-    }
-    void CheckGuns()
-    {
-        if(Equipped_Weapons[0] == null)
-        {
-            WeaponSlots[0].SetActive(false);
-        }
-        else
-        {
-            WeaponSlots[0].SetActive(true);
-        }
-        if (Equipped_Weapons[1] == null)
-        {
-            WeaponSlots[1].SetActive(false);
-        }
-        else
-        {
-            WeaponSlots[1].SetActive(true);
-        }
-        if (Equipped_Weapons[2] == null)
-        {
-            WeaponSlots[2].SetActive(false);
-        }
-        else
-        {
-            WeaponSlots[2].SetActive(true);
-        }
-        if(Equipped_Weapons[0] && activeWeaponIndex == 0)
-        {
-            WeaponSlots[0].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(0f/255f, 28f / 255f, 255f / 255f);
-            WeaponSlots[1].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-            WeaponSlots[2].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-        }
-        else if (Equipped_Weapons[1] && activeWeaponIndex == 1)
-        {
-            WeaponSlots[1].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(0f / 255f, 28f / 255f, 255f / 255f);
-            WeaponSlots[0].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-            WeaponSlots[2].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-        }
-        else if (Equipped_Weapons[2] && activeWeaponIndex == 2)
-        {
-            WeaponSlots[2].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color(0f / 255f, 28f / 255f, 255f / 255f); 
-            WeaponSlots[0].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-            WeaponSlots[1].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-        }
-        else
-        {
-            WeaponSlots[0].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-            WeaponSlots[1].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-            WeaponSlots[2].transform.parent.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-        }
     }
 }
