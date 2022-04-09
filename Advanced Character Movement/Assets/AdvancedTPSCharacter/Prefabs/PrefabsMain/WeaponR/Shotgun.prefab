@@ -24437,7 +24437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882297d1f81fc9141a3f8bf9ddf7e7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 3
+  fireRate: 1
   WeaponSlotType: 4
   muzzleFlash:
   - {fileID: 2572316496870114705}
@@ -24470,7 +24470,7 @@ MonoBehaviour:
   RigController: {fileID: 0}
   duration: 0.1
   recoilPattern:
-  - {x: 5, y: 0}
+  - {x: 0, y: 20}
 --- !u!114 &3004460463205997780
 MonoBehaviour:
   m_ObjectHideFlags: 0

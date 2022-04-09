@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7156398997022163667}
   - component: {fileID: 7156398997022163668}
   - component: {fileID: 3199549865010007691}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TreeLogTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
