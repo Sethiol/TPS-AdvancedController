@@ -9,6 +9,8 @@ public class UIController : MonoBehaviour
     [SerializeField] public GameObject CarButton;
     [SerializeField] private GameObject RebindingUI;
     public AdvancedCharacterMovement Player;
+    [SerializeField]
+    private GameObject removecam;
     bool Settings;
     public bool CancelAllMovement { get; set;}
     // Start is called before the first frame update
@@ -36,12 +38,14 @@ public class UIController : MonoBehaviour
         if (Settings)
         { 
           RebindingUI.SetActive(true);
+          removecam.SetActive(false);
           CancelAllMovement = true;
         }
         else
         {
           RebindingUI.SetActive(false);
-          CancelAllMovement = false;
+            removecam.SetActive(true);
+            CancelAllMovement = false;
         }
     }
    

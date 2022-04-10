@@ -52,9 +52,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Equip"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""8307b32e-d0f7-4382-924b-442f14dc0235"",
-                    ""expectedControlType"": ""Key"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Tap""
                 },
@@ -313,8 +313,19 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ee2509bf-e2c9-415a-b877-4c9926d325dd"",
-                    ""path"": ""<DualShockGamepad>/start"",
+                    ""id"": ""3705160c-5fa2-410c-a7c9-c1773f1b0dee"",
+                    ""path"": ""<DualShockGamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0da26913-b3e8-49fb-96e2-f2ef1658439e"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -324,8 +335,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0da26913-b3e8-49fb-96e2-f2ef1658439e"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""id"": ""ee2509bf-e2c9-415a-b877-4c9926d325dd"",
+                    ""path"": ""<DualShockGamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -445,8 +456,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5889bba7-c6fd-4486-bb26-f8e2f91a967d"",
-                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""id"": ""d7c59727-a96d-4fcc-ab4b-65aa19086ecd"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -456,8 +467,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d7c59727-a96d-4fcc-ab4b-65aa19086ecd"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""id"": ""5889bba7-c6fd-4486-bb26-f8e2f91a967d"",
+                    ""path"": ""<DualShockGamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

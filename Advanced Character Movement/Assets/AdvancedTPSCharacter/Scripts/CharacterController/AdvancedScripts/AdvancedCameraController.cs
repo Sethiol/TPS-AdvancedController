@@ -12,8 +12,15 @@ public class AdvancedCameraController : MonoBehaviour
     }
     void LateUpdate()
     {
-        if (FindObjectOfType<UIController>().CancelAllMovement == true) return;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (FindObjectOfType<UIController>().CancelAllMovement == true)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 }

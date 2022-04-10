@@ -26,7 +26,6 @@ public class AdvancedCharacterMovement : MonoBehaviour
     bool aiming;
     [SerializeField] private Camera cam;
     UIController controller;
-    public PlayerInput input;
     private ActiveWeapon weapon;
     public float turnSpeed = 15;
     private void Start()
@@ -35,7 +34,7 @@ public class AdvancedCharacterMovement : MonoBehaviour
         //Enabling Input Asset
         animator = GetComponent<Animator>();
         controller = GetComponentInChildren<UIController>();
-        Controls = new PlayerControls();
+        Controls = InputManager.inputActions;
         Controls.Enable();
         Controls.Keyboard.MovementKeyBinds.performed += ctx =>
         {
@@ -96,6 +95,7 @@ public class AdvancedCharacterMovement : MonoBehaviour
         bool backwardPressed = PlayerMoveInput.z < -0.5;
         bool leftPressed = PlayerMoveInput.x < -0.5;
         bool rightPressed = PlayerMoveInput.x > 0.5;
+        if (controller.CancelAllMovement == true) return;
         if (weapon.CancelAllMovement == true) { return; }
         if (crouching)
         {
@@ -297,6 +297,7 @@ public class AdvancedCharacterMovement : MonoBehaviour
  
     private void HandleCharacterRotation()
     {
+        if (controller.CancelAllMovement == true) return;
         float yawCamera = cam.transform.rotation.eulerAngles.y;
         transform.rotation = Quaternion.Euler(0, yawCamera, 0);
     }

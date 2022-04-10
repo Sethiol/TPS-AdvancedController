@@ -48,6 +48,7 @@ public class WeaponAiming : MonoBehaviour
 
     void SniperAiming()
     {
+        if (cam == null) { return; }
         if (Aiming && currentFOV > 21)
         {
             currentFOV -= Time.deltaTime * AimSpeed * 1.5f;
@@ -73,6 +74,7 @@ public class WeaponAiming : MonoBehaviour
     }
     void OtherWeaponAiming()
     {
+        if (cam == null) { return; }
         if (Aiming && currentFOV > 35)
         {
             currentFOV -= Time.deltaTime * AimSpeed;
