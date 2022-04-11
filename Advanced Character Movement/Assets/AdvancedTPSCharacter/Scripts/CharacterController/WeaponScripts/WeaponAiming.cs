@@ -39,7 +39,7 @@ public class WeaponAiming : MonoBehaviour
         var weapon = activeWeapon.GetActiveWeapon();
         if (weapon && (currentWeapon != "Axe") && (currentWeapon != "Knife"))
         {
-            weapon.recoil.RecoilModifier = Aiming ? 0.3f : 1.0f;
+                weapon.recoil.RecoilModifier = Aiming ? 0.3f : 1.0f;
         }
         if(currentWeapon == "Axe" || currentWeapon == "") { return;  }
         if(currentWeapon == "Sniper") { SniperAiming(); }
